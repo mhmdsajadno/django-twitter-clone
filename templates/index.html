@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block main %}
+    <div class="content-wrapper">
+        {% for tweet in tweets %}
+            <div class="tweet-card">
+                <div class="tweet-avatar-wrapper" style="margin-right: 15px;">
+                    {% if tweet.user.profile_picture %}
+                        <img src="{{ tweet.user.profile_picture.url }}" alt="{{ tweet.user.username }}'s profile picture" class="tweet-avatar">
+                    {% else %}
+                        <div class="tweet-avatar-fallback">
+                            {{ tweet.user.username.0|upper }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="tweet-content-area">
+                    <p class="tweet-header">
+                        <strong class="tweet-username-link"><a href="{% url 'user_profile' username=tweet.user.username %}">{{ tweet.user.username }}</a></strong>
+                        <span class="tweet-meta-separator">·</span>
+                        <small class="tweet-timestamp">{{ tweet.created_at|date:"M j, Y" }}</small>
+                    </p>
+                    <p class="tweet-text">{{ tweet.content }}</p>
+                    <div class="tweet-actions">
+                        <a href="{% url 'like' tweet.id %}" class="tweet-action-link">❤️ <span>{{ tweet.like_count }} Like </span></a>
+                        <a href="{% url 'retweet' %}" class="tweet-action-link">🔁 <span>Retweet</span></a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p class="empty-message">No tweets to display yet.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

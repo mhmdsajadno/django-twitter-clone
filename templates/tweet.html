@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block main %}
+    <h1 style="text-align: center">.:: Tweet ::.</h1>
+<form action="{% url "user_tweet" %}" method='post' style="text-align: center">
+    {% csrf_token %}
+    <label for="tweet"></label><textarea name="tweet" id="tweet" style="width: 50%; height: 200px; padding: 10px; font-size: 16px; placeholder=" Add tags" ></textarea>
+    <br>
+    <input type="submit" value="Tweet" style="width: 5%; padding: 5px;">
+</form>
+{% endblock main %}

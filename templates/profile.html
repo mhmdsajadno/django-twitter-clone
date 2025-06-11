@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<div class="profile-container">
+    <div class="profile-header-section">
+        {# Display Profile Picture #}
+        {% if user_profile.profile_picture %}
+            <img src="{{ user_profile.profile_picture.url }}" alt="{{ user_profile.username }}'s profile picture"
+                 class="profile-avatar-large">
+        {% else %}
+            <div class="profile-avatar-large-fallback">
+                {{ user_profile.username.0|upper }}
+            </div>
+        {% endif %}
+
+        <h2 class="profile-full-name">{{ user_profile.first_name }} {{ user_profile.last_name }}</h2>
+        <h3 class="profile-username" style="margin: 7px">@{{ user_profile.username }}</h3>
+
+        {# Display Bio #}
+        {% if user_profile.bio %}
+            <p class="profile-bio">{{ user_profile.bio }}</p>
+        {% endif %}
+
+        {# Display Website #}
+        {% if user_profile.website %}
+            <p class="profile-website">
+                <a href="{{ user_profile.website }}" target="_blank" rel="noopener noreferrer" class="profile-website-link">
+                    {{ user_profile.website }}
+                </a>
+            </p>
+        {% endif %}
+        <form method="POST" action="{% url 'follow' user_profile.username %}">
+    {% csrf_token %}
+    {% if is_following %}
+        <button type="submit" class="follow-button">Unfollow</button>
+    {% else %}
+        <button type="submit" class="follow-button">Follow</button>
+    {% endif %}
+</form>
+
+    </div>
+
+
+    {# Display User's Tweets #}
+    <div>
+        {% for tweet in user_tweets %}
+            <div class="tweet-card">
+                {# Profile Picture - smaller for tweets #}
+                <div class="tweet-avatar-wrapper" style="margin-right: 15px;"> {# Added margin-right here for spacing #}
+                    {% if tweet.user.profile_picture %}
+                        <img src="{{ tweet.user.profile_picture.url }}" alt="{{ tweet.user.username }}'s profile picture"
+                             class="tweet-avatar">
+                    {% else %}
+                        <div class="tweet-avatar-fallback">
+                            {{ tweet.user.username.0|upper }}
+                        </div>
+                    {% endif %}
+                </div>
+                {# Tweet Content #}
+                <div class="tweet-content-area">
+                    <p class="tweet-header">
+                        <strong class="tweet-username-link"><a href="{% url 'user_profile' username=tweet.user.username %}">{{ tweet.user.username }}</a></strong>
+                        <span class="tweet-meta-separator">·</span>
+                        <small class="tweet-timestamp">{{ tweet.created_at|date:"M j, Y" }}</small>
+                    </p>
+                    <p class="tweet-text">{{ tweet.content }}</p>
+                    <div class="tweet-actions">
+                        <a href="{% url 'like' tweet.id %}" class="tweet-action-link">❤️ <span>{{ tweet.like_count }} Like </span></a>
+                        <a href="" class="tweet-action-link">🔁 <span>Retweet</span></a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p class="empty-message">No tweets from {{ user_profile.username }} yet.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

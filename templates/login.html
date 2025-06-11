@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block main %}
+    <div class="form-container">
+        <h1>.:: Login ::.</h1>
+        {% if messages %}
+            {% for message in messages %}
+                <p class="message">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+        <form method="POST" action="{% url 'login' %}">
+            {% csrf_token %}
+            <label for="username"></label>
+            <input type="text" id="username" name="username" placeholder="Username">
+            <br>
+            <label for="password"></label>
+            <input type="password" id="password" name="password" placeholder="Password">
+            <br>
+
+            <!-- Add hCaptcha widget -->
+            <div class="h-captcha" data-sitekey="ef6883a0-83da-47ac-9958-1ab8605c1424"></div>
+            <br>
+
+            <input type="submit" value="Login">
+        </form>
+        <a href="{% url 'register' %}"><h3>👉 No account? Sign Up Now!</h3></a>
+    </div>
+
+    <!-- Load the hCaptcha API -->
+    <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
+{% endblock %}

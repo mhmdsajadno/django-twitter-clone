@@ -1,0 +1,54 @@
+from django.db import models
+from django.contrib.auth.models import AbstractUser
+from django.conf import settings
+
+class Profile(AbstractUser):
+    bio = models.TextField(blank=True)
+    website = models.URLField(max_length=200)
+    profile_picture = models.ImageField(upload_to='profile_pics/', blank=True)
+
+class Post(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='posts')
+    content = models.TextField(max_length=280)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    @property
+    def like_count(self):
+        return self.likes.count()
+    # def retweet_count(self):
+    #     return  self.retweet.count()
+
+class Like(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='likes')
+    tweet = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='likes')
+    count = models.IntegerField(default=0)
+
+class Retweet(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='retweets')
+    tweet = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='retweets')
+    count = models.IntegerField(default=0)
+
+class Follow(models.Model):
+    follower = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        related_name='following',
+        on_delete=models.CASCADE
+    )
+    followed = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        related_name='followers',
+        on_delete=models.CASCADE
+    )
+
+    class Meta:
+        unique_together = ('follower', 'followed')
+
+# class Comment(models.Model):
+#     post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE)
+#     author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='commented_posts', on_delete=models.CASCADE)
+#     content = models.TextField(max_length=280)
+#     created_at = models.DateTimeField(auto_now_add=True)
+
+# class Follow(models.Model):
+#     follower = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='following', on_delete=models.CASCADE)
+#     followed = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='followers', on_delete=models.CASCADE)
