@@ -9,3 +9,4 @@
 - [x] like/dislike
 - [ ] retweet
 - [ ] notification
+- [x] follow/unfollow
