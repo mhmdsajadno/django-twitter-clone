@@ -1,5 +1,6 @@
 - [x] css
-- [ ] tweeting
+- [x] tweeting
+- [ ] comments
 - [ ] deletion
 - [x] login/logout
 - [x] register
