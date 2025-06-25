@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib import messages
-from .models import Post, Like, Follow
+from .models import Post, Like, Follow, Retweet
 
 User = get_user_model()
 
@@ -14,10 +14,12 @@ def home(request):
 def profile(request, username):
     user_profile = get_object_or_404(User, username=username)
     user_tweets = Post.objects.filter(user=user_profile).order_by('-created_at')
+    user_retweets = Retweet.objects.filter(user=user_profile).select_related('tweet')
     is_following = Follow.objects.filter(follower=request.user, followed=user_profile).exists()
     context = {
         'user_profile': user_profile,
         'user_tweets': user_tweets,
+        'user_retweets': user_retweets,
         'is_following': is_following
     }
     return render(request, 'profile.html', context)
@@ -93,8 +95,20 @@ def like_post(request, post_id):
         print('Liked!')
     return redirect(request.META.get('HTTP_REFERER', '/'))  # Redirect to the referring URL or fallback to home
 
+@login_required
+def retweet(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    user = request.user
+    
+    retweet = Retweet.objects.filter(user=user, tweet=post).first()
 
-def retweet(request):
+    if retweet:
+        retweet.delete()
+        print('Retweet NOT done!')
+    else:
+        Retweet.objects.create(user=user, tweet=post)  # Corrected here
+        print('Retweet done!')
+
     return redirect('home')
 
 

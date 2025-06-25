@@ -29,24 +29,24 @@
                 </a>
             </p>
         {% endif %}
+        
         <form method="POST" action="{% url 'follow' user_profile.username %}">
-    {% csrf_token %}
-    {% if is_following %}
-        <button type="submit" class="follow-button">Unfollow</button>
-    {% else %}
-        <button type="submit" class="follow-button">Follow</button>
-    {% endif %}
-</form>
-
+            {% csrf_token %}
+            {% if is_following %}
+                <button type="submit" class="follow-button">Unfollow</button>
+            {% else %}
+                <button type="submit" class="follow-button">Follow</button>
+            {% endif %}
+        </form>
     </div>
-
 
     {# Display User's Tweets #}
     <div>
+        <h2>Tweets</h2>
         {% for tweet in user_tweets %}
             <div class="tweet-card">
                 {# Profile Picture - smaller for tweets #}
-                <div class="tweet-avatar-wrapper" style="margin-right: 15px;"> {# Added margin-right here for spacing #}
+                <div class="tweet-avatar-wrapper" style="margin-right: 15px;">
                     {% if tweet.user.profile_picture %}
                         <img src="{{ tweet.user.profile_picture.url }}" alt="{{ tweet.user.username }}'s profile picture"
                              class="tweet-avatar">
@@ -65,8 +65,8 @@
                     </p>
                     <p class="tweet-text">{{ tweet.content }}</p>
                     <div class="tweet-actions">
-                        <a href="{% url 'like' tweet.id %}" class="tweet-action-link">❤️ <span>{{ tweet.like_count }} Like </span></a>
-                        <a href="" class="tweet-action-link">🔁 <span>Retweet</span></a>
+                        <a href="{% url 'like' tweet.id %}" class="tweet-action-link">❤️ <span>{{ tweet.like_count }} Like{% if tweet.like_count != 1 %}s{% endif %}</span></a>
+                        <a href="{% url 'retweet' tweet.id %}" class="tweet-action-link">🔁 <span>{{ tweet.retweet_count }} Retweet{% if tweet.retweet_count != 1 %}s{% endif %}</span></a>
                     </div>
                 </div>
             </div>
@@ -74,5 +74,39 @@
             <p class="empty-message">No tweets from {{ user_profile.username }} yet.</p>
         {% endfor %}
     </div>
+
+{# Display User's Retweets #}
+<div>
+    <h2>Retweets</h2>
+    {% for retweet in user_retweets %}
+        <div class="tweet-card">  {# Use the same class as tweet cards #}
+            <div class="tweet-avatar-wrapper" style="margin-right: 15px;">
+                {% if retweet.tweet.user.profile_picture %}
+                    <img src="{{ retweet.tweet.user.profile_picture.url }}" alt="{{ retweet.tweet.user.username }}'s profile picture"
+                         class="tweet-avatar">
+                {% else %}
+                    <div class="tweet-avatar-fallback">
+                        {{ retweet.tweet.user.username.0|upper }}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="tweet-content-area">
+                <p class="tweet-header">
+                    <strong class="tweet-username-link"><a href="{% url 'user_profile' username=retweet.tweet.user.username %}">{{ retweet.tweet.user.username }}</a></strong>
+                    <span class="tweet-meta-separator">·</span>
+                    <small class="tweet-timestamp">{{ retweet.tweet.created_at|date:"M j, Y" }}</small>
+                </p>
+                <p class="tweet-text">{{ retweet.tweet.content }}</p>
+                <div class="tweet-actions">
+                    <a href="{% url 'like' retweet.tweet.id %}" class="tweet-action-link">❤️ <span>{{ retweet.tweet.like_count }} Like{% if retweet.tweet.like_count != 1 %}s{% endif %}</span></a>
+                    <a href="{% url 'retweet' retweet.tweet.id %}" class="tweet-action-link">🔁 <span>{{ retweet.tweet.retweet_count }} Retweet{% if retweet.tweet.retweet_count != 1 %}s{% endif %}</span></a>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <p class="empty-message">No retweets from {{ user_profile.username }} yet.</p>
+    {% endfor %}
 </div>
+
+
 {% endblock %}

@@ -21,8 +21,18 @@
                     </p>
                     <p class="tweet-text">{{ tweet.content }}</p>
                     <div class="tweet-actions">
+                        {% if tweet.like_count > 0 %}
                         <a href="{% url 'like' tweet.id %}" class="tweet-action-link">❤️ <span>{{ tweet.like_count }} Like </span></a>
-                        <a href="{% url 'retweet' %}" class="tweet-action-link">🔁 <span>Retweet</span></a>
+                        {% else %}
+                        <a href="{% url 'like' tweet.id %}" class="tweet-action-link">❤️ <span>Like </span></a>
+                        {% endif %}
+                        
+                        
+                        {% if tweet.retweet_count > 0 %}
+                        <a href="{% url 'retweet' tweet.id %}" class="tweet-action-link">🔁 <span> {{ tweet.retweet_count }} Retweet</span></a>
+                        {% else %}
+                        <a href="{% url 'retweet' tweet.id %}" class="tweet-action-link">🔁 <span>Retweet</span></a>
+                        {% endif %}
                     </div>
                 </div>
             </div>

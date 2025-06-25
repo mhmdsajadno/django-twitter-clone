@@ -15,16 +15,23 @@ class Post(models.Model):
     @property
     def like_count(self):
         return self.likes.count()
-    # def retweet_count(self):
-    #     return  self.retweet.count()
+    @property
+    def retweet_count(self):
+        return self.retweets.count()
 
 class Like(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='likes')
     tweet = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='likes')
+    
+    class Meta:
+        unique_together = ('user', 'tweet')
 
 class Retweet(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='retweets')
     tweet = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='retweets')
+
+    class Meta:
+        unique_together = ('user','tweet')
 
 class Follow(models.Model):
     follower = models.ForeignKey(
@@ -41,12 +48,9 @@ class Follow(models.Model):
     class Meta:
         unique_together = ('follower', 'followed')
 
+# Uncomment when ready to implement commenting functionality
 # class Comment(models.Model):
 #     post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE)
 #     author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='commented_posts', on_delete=models.CASCADE)
 #     content = models.TextField(max_length=280)
 #     created_at = models.DateTimeField(auto_now_add=True)
-
-# class Follow(models.Model):
-#     follower = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='following', on_delete=models.CASCADE)
-#     followed = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='followers', on_delete=models.CASCADE)

@@ -1,10 +1,10 @@
 - [x] css
-- [ ] tweeting
+- [x] tweeting
 - [ ] deletion
 - [x] login/logout
 - [x] register
 - [ ] captcha
 - [x] profile
 - [x] like/dislike
-- [ ] retweet
+- [x] retweet
 - [ ] notification
