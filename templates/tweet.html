@@ -1,11 +1,13 @@
 {% extends "base.html" %}
 
 {% block main %}
-    <h1 style="text-align: center">.:: Tweet ::.</h1>
-<form action="{% url "user_tweet" %}" method='post' style="text-align: center">
-    {% csrf_token %}
-    <label for="tweet"></label><textarea name="tweet" id="tweet" style="width: 50%; height: 200px; padding: 10px; font-size: 16px; placeholder=" Add tags" ></textarea>
-    <br>
-    <input type="submit" value="Tweet" style="width: 5%; padding: 5px;">
-</form>
+    <div style="max-width: 400px; margin: 40px auto; background-color: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); text-align: center;">
+        <h1 style="text-align: center; color: #1a202c; font-weight: 600; margin-bottom: 20px;">.:: Tweet ::.</h1>
+        <form action="{% url 'user_tweet' %}" method="post">
+            {% csrf_token %}
+            <label for="tweet" style="display: none;"></label>
+            <textarea name="tweet" id="tweet" style="width: calc(100% - 24px); height: 200px; padding: 12px; font-size: 16px; border: 1px solid #cbd5e0; border-radius: 8px; outline: none; transition: border-color 0.2s ease; margin-bottom: 15px; box-sizing: border-box;" placeholder="What is on your mind?"></textarea>
+            <input type="submit" value="Tweet" style="padding: 12px 25px; font-size: 16px; border-radius: 9999px; background-color: #2b6cb0; color: #ffffff; border: none; cursor: pointer; transition: background-color 0.2s ease; margin-top: 10px; margin-bottom: 20px;">
+        </form>
+    </div>
 {% endblock main %}

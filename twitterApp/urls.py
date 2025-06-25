@@ -1,5 +1,7 @@
 
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 from . import views
 
 urlpatterns = [
@@ -13,3 +15,5 @@ urlpatterns = [
     path('profile/<str:username>/', views.profile, name='user_profile'),
     path('follow/<str:username>/', views.follow, name='follow'),
 ]
+
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

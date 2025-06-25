@@ -21,12 +21,10 @@ class Post(models.Model):
 class Like(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='likes')
     tweet = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='likes')
-    count = models.IntegerField(default=0)
 
 class Retweet(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='retweets')
     tweet = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='retweets')
-    count = models.IntegerField(default=0)
 
 class Follow(models.Model):
     follower = models.ForeignKey(
