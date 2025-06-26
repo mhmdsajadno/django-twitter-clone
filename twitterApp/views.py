@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib import messages
@@ -111,6 +112,14 @@ def retweet(request, post_id):
 
     return redirect('home')
 
+@login_required
+def delete_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    if post.user == request.user:
+        post.delete()
+        return redirect('home')
+    else:
+        return HttpResponseForbidden("You do not have permission to delete this post.")
 
 @login_required
 def follow(request, username):

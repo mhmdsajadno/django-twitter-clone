@@ -1,13 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
+import re
 
 class Profile(AbstractUser):
     bio = models.TextField(blank=True)
     website = models.URLField(max_length=200)
     profile_picture = models.ImageField(upload_to='profile_pics/', blank=True)
 
-import re
+
 class Post(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='posts')
     content = models.TextField(max_length=280)

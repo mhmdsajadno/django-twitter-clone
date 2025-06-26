@@ -1,10 +1,10 @@
 - [x] css
 - [x] tweeting
-- [ ] deletion
+- [x] deletion (only possible on user profile)
 - [x] login/logout
 - [x] register
 - [ ] captcha
-- [x] profile
+- [x] profile - profile picture???
 - [x] like/dislike
 - [x] retweet
 - [ ] notification

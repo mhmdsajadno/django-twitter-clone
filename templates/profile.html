@@ -67,6 +67,7 @@
                     <div class="tweet-actions">
                         <a href="{% url 'like' tweet.id %}" class="tweet-action-link">❤️ <span>{{ tweet.like_count }} Like{% if tweet.like_count != 1 %}s{% endif %}</span></a>
                         <a href="{% url 'retweet' tweet.id %}" class="tweet-action-link">🔁 <span>{{ tweet.retweet_count }} Retweet{% if tweet.retweet_count != 1 %}s{% endif %}</span></a>
+                        <a href="{% url "delete" tweet.id %}">🗑️</a>
                     </div>
                 </div>
             </div>
