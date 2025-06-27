@@ -12,6 +12,7 @@ def home(request):
     tweets = Post.objects.all().order_by('-created_at')
     return render(request, 'index.html', {'tweets': tweets})
 
+@login_required
 def profile(request, username):
     user_profile = get_object_or_404(User, username=username)
     user_tweets = Post.objects.filter(user=user_profile).order_by('-created_at')

@@ -20,6 +20,7 @@
                         <small class="tweet-timestamp">{{ tweet.created_at|date:"M j, Y" }}</small>
                     </p>
                     <p class="tweet-text">{{ tweet.content }}</p>
+                    <hr style="border: none; border-top: 1px solid #cbd5e0; margin: 20px 0; opacity: 0.5">
                     <div class="tweet-actions">
                         {% if tweet.like_count > 0 %}
                         <a href="{% url 'like' tweet.id %}" class="tweet-action-link">❤️ <span>{{ tweet.like_count }} Like </span></a>

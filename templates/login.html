@@ -20,12 +20,12 @@
             <br>
 
             <!-- Add hCaptcha widget -->
-            <div class="h-captcha" data-sitekey="ef6883a0-83da-47ac-9958-1ab8605c1424"></div>
+            {% comment %} <div class="h-captcha" data-sitekey="ef6883a0-83da-47ac-9958-1ab8605c1424"></div> {% endcomment %}
             <br>
 
             <input type="submit" value="Login">
         </form>
-        <a href="{% url 'register' %}"><h3>👉 No account? Sign Up Now!</h3></a>
+        <a href="{% url 'register' %}"><input type="submit" style="background-color:rgb(54, 54, 54);" value="no account?"></a>
     </div>
 
     <!-- Load the hCaptcha API -->

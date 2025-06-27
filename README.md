@@ -8,3 +8,4 @@
 - [x] like/dislike
 - [x] retweet
 - [ ] notification
+- [x] adminpanel
