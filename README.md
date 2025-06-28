@@ -9,4 +9,4 @@
 - [x] retweet
 - [ ] notification
 - [x] adminpanel
-- [x] API
+- [x] api
