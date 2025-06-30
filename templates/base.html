@@ -24,7 +24,7 @@
             <a href="{% url 'login' %}">Login/Register </a>
             {% endif %}
         </h3>
-        <form action="/" method="GET" class="search-container">
+        <form action="{% url 'search' %}" method="GET" class="search-container">
             <input type="text" id="search" name="search" placeholder="Search...">
             <button type="submit">Search</button>
         </form>

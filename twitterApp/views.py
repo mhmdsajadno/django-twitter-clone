@@ -4,7 +4,7 @@ from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib import messages
-from .models import Post, Like, Follow, Retweet
+from .models import Post, Like, Follow, Retweet, Profile
 
 User = get_user_model()
 
@@ -204,3 +204,13 @@ def follow(request, username):
             messages.error(request, "You cannot follow yourself.")
 
     return redirect('user_profile', username=username)  # Redirect to the profile
+
+def search(request):
+    query = request.GET.get('search', '')
+    post_results = Post.objects.filter(content__icontains=query) if query else []
+    user_results = Profile.objects.filter(username__icontains=query) if query else []
+    return render(request, 'search.html', {
+        'query': query,
+        'tweets': post_results,
+        'users': user_results,
+    })

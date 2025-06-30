@@ -24,6 +24,8 @@ urlpatterns = [
     path('profile/<str:username>/', views.profile, name='user_profile'),
     # Follow or unfollow a user
     path('follow/<str:username>/', views.follow, name='follow'),
+    # Search for tweets or users
+    path('search/', views.search, name='search'),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
