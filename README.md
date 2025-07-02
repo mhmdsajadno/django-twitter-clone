@@ -10,3 +10,4 @@
 - [ ] notification
 - [x] adminpanel
 - [x] api
+- [x] oauth login/register
