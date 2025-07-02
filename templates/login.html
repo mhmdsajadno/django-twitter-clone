@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% load static %}
+{% load socialaccount %}
 
 {% block main %}
     <div class="form-container">
@@ -25,7 +26,10 @@
 
             <input type="submit" value="Login">
         </form>
-        <a href="{% url 'register' %}"><input type="submit" style="background-color:rgb(54, 54, 54);" value="no account?"></a>
+        <a href="{% url 'register' %}"><input type="submit" style="background-color:rgb(76, 65, 138);" value="Sign Up"></a>
+        <br>
+        <h3>OR</h3>
+        <a href="{% provider_login_url 'github' %}"><input type="submit" style="background-color:rgb(54, 54, 54); margin-top:0;" value="login with GitHub"></a>
     </div>
 
     <!-- Load the hCaptcha API -->
